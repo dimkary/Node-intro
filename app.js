@@ -7,8 +7,9 @@ const mailchimp = require("@mailchimp/mailchimp_marketing");
 const app = express();
 const fs = require('fs');
 
-const API_KEY = "fadde67f3fb685cad355cd7487352681-us14"
-const list_id = "5729c3e3ae"
+require('dotenv').config();
+const API_KEY = process.env.API_KEY
+const list_id = process.env.list_id
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -44,11 +45,6 @@ app.post('/', (req, res) => {
         const response = await mailchimp.lists.addListMember(list_id, data);
         fs.writeFileSync("./log.json", JSON.stringify(response));
         console.log(response);
-        // response.on("data", (data) => {
-        //     const all_data = JSON.parse(data);
-        //     console.log(all_data);
-        // });
-        // res.sendFile(__dirname + "/success.html");
         res.sendFile(__dirname + "/success.html");
     };
 
